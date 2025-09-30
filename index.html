@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Australia Population and Immigration Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Population & Immigration Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -10,64 +10,37 @@
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
-      margin: 20px;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
       text-align: center;
+      margin-bottom: 30px;
     }
-    #controls {
-      margin-bottom: 20px;
-    }
-    #charts {
+    .container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 50px;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap; /* makes responsive */
+    }
+    .chart {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <h1>Australia Population and Immigration Dashboard</h1>
-
-  <div id="controls">
-    <label for="stateSelect"><strong>Select State: </strong></label>
-    <select id="stateSelect">
-      <option>All</option>
-      <option>New South Wales</option>
-      <option>Victoria</option>
-      <option>Queensland</option>
-      <option>South Australia</option>
-      <option>Western Australia</option>
-      <option>Tasmania</option>
-      <option>Northern Territory</option>
-      <option>Australian Capital Territory</option>
-    </select>
-  </div>
-
-  <div id="charts">
-    <div id="populationChart"></div>
-    <div id="immigrantChart"></div>
+  <h1>Population & Immigration Trends (2024)</h1>
+  <div class="container">
+    <div id="populationChart" class="chart"></div>
+    <div id="immigrantChart" class="chart"></div>
   </div>
 
   <script>
-    function renderCharts(selectedState) {
-      const populationSpec = "population.json";
-      const immigrantSpec = "immigrant.json";
-
-      vegaEmbed("#populationChart", populationSpec, {actions: false})
-        .then(result => {
-          result.view.signal("selected_state", selectedState).run();
-        });
-
-      vegaEmbed("#immigrantChart", immigrantSpec, {actions: false})
-        .then(result => {
-          result.view.signal("selected_state", selectedState).run();
-        });
-    }
-
-    renderCharts("All");
-
-    document.getElementById("stateSelect").addEventListener("change", function() {
-      renderCharts(this.value);
-    });
+    vegaEmbed('#populationChart', 'population.json', {actions: false}).catch(console.error);
+    vegaEmbed('#immigrantChart', 'immigrant.json', {actions: false}).catch(console.error);
   </script>
 </body>
 </html>
