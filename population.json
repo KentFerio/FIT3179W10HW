@@ -2,32 +2,32 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Total Population by State (Millions)",
   "width": 600,
-  "height": 380,
+  "height": 400,
   "data": {
     "url": "https://raw.githubusercontent.com/KentFerio/FIT3179W10HW/main/FIT3179W10HW.csv"
   },
   "params": [
-    { "name": "selected_state", "value": "All" }
+    {"name": "selected_state", "value": "All"}
   ],
   "transform": [
-    { "filter": "selected_state == 'All' || datum.State == selected_state" },
-    { "calculate": "datum.Total/1000000", "as": "TotalMillions" }
+    {"filter": "selected_state == 'All' || datum.State == selected_state"},
+    {"calculate": "datum.Total / 1000000", "as": "Population_Million"}
   ],
   "mark": "bar",
   "encoding": {
-    "x": { "field": "Year", "type": "ordinal", "title": "Year", "sort": "ascending" },
+    "x": {"field": "Year", "type": "ordinal", "title": "Year"},
     "y": {
       "aggregate": "sum",
-      "field": "TotalMillions",
+      "field": "Population_Million",
       "type": "quantitative",
       "title": "Total Population (millions)",
-      "axis": { "format": ".1f" }
+      "axis": {"format": ".1f"}
     },
-    "color": { "field": "State", "type": "nominal", "title": "State" },
+    "color": {"field": "State", "type": "nominal", "title": "State"},
     "tooltip": [
-      { "field": "State", "title": "State" },
-      { "field": "Year", "title": "Year" },
-      { "aggregate": "sum", "field": "TotalMillions", "title": "Population (M)", "format": ".2f" }
+      {"field": "State", "title": "State"},
+      {"field": "Year", "title": "Year"},
+      {"field": "Population_Million", "title": "Population (millions)", "format": ".2f"}
     ]
   }
 }
