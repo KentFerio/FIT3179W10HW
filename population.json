@@ -1,64 +1,33 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Total Population by State (Million)",
+  "title": "Total Population by State (Millions)",
   "width": 600,
-  "height": 400,
+  "height": 380,
   "data": {
     "url": "https://raw.githubusercontent.com/KentFerio/FIT3179W10HW/main/FIT3179W10HW.csv"
   },
   "params": [
-    {
-      "name": "selected_state",
-      "bind": {
-        "input": "select",
-        "options": [
-          "All",
-          "New South Wales",
-          "Victoria",
-          "Queensland",
-          "South Australia",
-          "Western Australia",
-          "Tasmania",
-          "Northern Territory",
-          "Australian Capital Territory"
-        ],
-        "labels": [
-          "All",
-          "New South Wales",
-          "Victoria",
-          "Queensland",
-          "South Australia",
-          "Western Australia",
-          "Tasmania",
-          "Northern Territory",
-          "Australian Capital Territory"
-        ],
-        "name": "Select State: "
-      },
-      "value": "All"
-    }
+    { "name": "selected_state", "value": "All" }
   ],
   "transform": [
-    {
-      "filter": "selected_state == 'All' || datum.State == selected_state"
-    }
+    { "filter": "selected_state == 'All' || datum.State == selected_state" },
+    { "calculate": "datum.Total/1000000", "as": "TotalMillions" }
   ],
   "mark": "bar",
   "encoding": {
-    "x": {"field": "Year", "type": "ordinal", "title": "Year"},
+    "x": { "field": "Year", "type": "ordinal", "title": "Year", "sort": "ascending" },
     "y": {
       "aggregate": "sum",
-      "field": "Total",
+      "field": "TotalMillions",
       "type": "quantitative",
-      "title": "Total Population (Million)",
-      "axis": {"format": "s"},
-      "scale": {"domain": [0, 2e7]}
+      "title": "Total Population (millions)",
+      "axis": { "format": ".1f" }
     },
-    "color": {"field": "State", "type": "nominal"},
+    "color": { "field": "State", "type": "nominal", "title": "State" },
     "tooltip": [
-      {"field": "State", "title": "State"},
-      {"field": "Year", "title": "Year"},
-      {"aggregate": "sum", "field": "Total", "title": "Population", "format": ","}
+      { "field": "State", "title": "State" },
+      { "field": "Year", "title": "Year" },
+      { "aggregate": "sum", "field": "TotalMillions", "title": "Population (M)", "format": ".2f" }
     ]
   }
 }
