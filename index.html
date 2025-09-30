@@ -6,58 +6,48 @@
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-  <style>
-    body { font-family: Arial, Helvetica, sans-serif; background:#f7f7f7; margin:0; padding:24px; }
-    h1 { text-align:center; margin:0 0 16px; }
-    #controls { display:flex; justify-content:center; gap:8px; margin:8px 0 24px; }
-    .row { display:flex; gap:24px; justify-content:center; align-items:flex-start; flex-wrap:wrap; }
-    .chart { background:#fff; padding:12px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,.08); }
-  </style>
 </head>
-<body>
-  <h1>Population & Immigration Trends</h1>
+<body style="background-color:#f9f9f9; font-family:sans-serif;">
+  <h1 style="text-align:center;">Population & Immigration Trends</h1>
 
-  <div id="controls">
-    <label for="stateSelect"><strong>Select State:</strong></label>
+  <div style="display:flex; justify-content:space-around; align-items:flex-start;">
+    <div id="vis1"></div>
+    <div id="vis2"></div>
+  </div>
+
+  <!-- Filter at the bottom -->
+  <div style="text-align:center; margin-top:20px;">
+    <label for="stateSelect"><b>Select State:</b></label>
     <select id="stateSelect">
-      <option>All</option>
-      <option>New South Wales</option>
-      <option>Victoria</option>
-      <option>Queensland</option>
-      <option>South Australia</option>
-      <option>Western Australia</option>
-      <option>Tasmania</option>
-      <option>Northern Territory</option>
-      <option>Australian Capital Territory</option>
+      <option value="All">All</option>
+      <option value="New South Wales">New South Wales</option>
+      <option value="Victoria">Victoria</option>
+      <option value="Queensland">Queensland</option>
+      <option value="South Australia">South Australia</option>
+      <option value="Western Australia">Western Australia</option>
+      <option value="Tasmania">Tasmania</option>
+      <option value="Northern Territory">Northern Territory</option>
+      <option value="Australian Capital Territory">Australian Capital Territory</option>
     </select>
   </div>
 
-  <div class="row">
-    <div id="popChart" class="chart"></div>
-    <div id="immChart" class="chart"></div>
-  </div>
+  <script type="text/javascript">
+    let selectedState = "All";
 
-  <script>
     // Embed both charts
-    let popView = null;
-    let immView = null;
+    Promise.all([
+      vegaEmbed('#vis1', 'population.json'),
+      vegaEmbed('#vis2', 'immigrant.json')
+    ]).then(results => {
+      const [popView, immView] = results.map(r => r.view);
 
-    vegaEmbed('#popChart', 'population.json', {actions:false}).then(res => {
-      popView = res.view;
-      popView.signal('selected_state', 'All').run();
+      // Add event listener for dropdown
+      document.getElementById('stateSelect').addEventListener('change', function(e) {
+        selectedState = e.target.value;
+        popView.signal('selected_state', selectedState).run();
+        immView.signal('selected_state', selectedState).run();
+      });
     }).catch(console.error);
-
-    vegaEmbed('#immChart', 'immigrant.json', {actions:false}).then(res => {
-      immView = res.view;
-      immView.signal('selected_state', 'All').run();
-    }).catch(console.error);
-
-    // Wire the single dropdown to both charts
-    document.getElementById('stateSelect').addEventListener('change', (e) => {
-      const val = e.target.value;
-      if (popView) popView.signal('selected_state', val).run();
-      if (immView) immView.signal('selected_state', val).run();
-    });
   </script>
 </body>
 </html>
