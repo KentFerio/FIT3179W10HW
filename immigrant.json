@@ -2,32 +2,32 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Immigrant Entry by State (Thousands)",
   "width": 600,
-  "height": 380,
+  "height": 400,
   "data": {
     "url": "https://raw.githubusercontent.com/KentFerio/FIT3179W10HW/main/FIT3179W10HW.csv"
   },
   "params": [
-    { "name": "selected_state", "value": "All" }
+    {"name": "selected_state", "value": "All"}
   ],
   "transform": [
-    { "filter": "selected_state == 'All' || datum.State == selected_state" },
-    { "calculate": "datum['Immigrant Entry']/1000", "as": "ImmThousands" }
+    {"filter": "selected_state == 'All' || datum.State == selected_state"},
+    {"calculate": "datum['Immigrant Entry'] / 1000", "as": "Immigrant_Thousand"}
   ],
-  "mark": { "type": "line", "point": true },
+  "mark": {"type": "line", "point": true},
   "encoding": {
-    "x": { "field": "Year", "type": "ordinal", "title": "Year", "sort": "ascending" },
+    "x": {"field": "Year", "type": "ordinal", "title": "Year"},
     "y": {
       "aggregate": "sum",
-      "field": "ImmThousands",
+      "field": "Immigrant_Thousand",
       "type": "quantitative",
       "title": "Immigrant Entry (thousands)",
-      "axis": { "format": ".0f" }
+      "axis": {"format": ".1f"}
     },
-    "color": { "field": "State", "type": "nominal", "title": "State" },
+    "color": {"field": "State", "type": "nominal", "title": "State"},
     "tooltip": [
-      { "field": "State", "title": "State" },
-      { "field": "Year", "title": "Year" },
-      { "aggregate": "sum", "field": "ImmThousands", "title": "Immigrant Entry (k)", "format": ".0f" }
+      {"field": "State", "title": "State"},
+      {"field": "Year", "title": "Year"},
+      {"field": "Immigrant_Thousand", "title": "Immigrants (thousands)", "format": ".2f"}
     ]
   }
 }
