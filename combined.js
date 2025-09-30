@@ -49,7 +49,7 @@
           {"field": "Year", "title": "Year"},
           {
             "aggregate": "sum",
-            "field": "Population",
+            "field": "Total",
             "title": "Population",
             "format": ","
           }
