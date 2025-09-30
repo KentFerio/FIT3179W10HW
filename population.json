@@ -9,7 +9,6 @@
   "params": [
     {
       "name": "selected_state",
-      "value": "All",
       "bind": {
         "input": "select",
         "options": [
@@ -23,17 +22,25 @@
           "Northern Territory",
           "Australian Capital Territory"
         ],
+        "labels": [
+          "All",
+          "New South Wales",
+          "Victoria",
+          "Queensland",
+          "South Australia",
+          "Western Australia",
+          "Tasmania",
+          "Northern Territory",
+          "Australian Capital Territory"
+        ],
         "name": "Select State: "
-      }
+      },
+      "value": "All"
     }
   ],
   "transform": [
     {
       "filter": "selected_state == 'All' || datum.State == selected_state"
-    },
-    {
-      "calculate": "datum.Population / 1000000",
-      "as": "Population_Million"
     }
   ],
   "mark": "bar",
@@ -41,21 +48,17 @@
     "x": {"field": "Year", "type": "ordinal", "title": "Year"},
     "y": {
       "aggregate": "sum",
-      "field": "Population_Million",
+      "field": "Total",
       "type": "quantitative",
       "title": "Total Population (Million)",
-      "axis": {"format": ".1f"}
+      "axis": {"format": "s"},
+      "scale": {"domain": [0, 2e7]}
     },
     "color": {"field": "State", "type": "nominal"},
     "tooltip": [
       {"field": "State", "title": "State"},
       {"field": "Year", "title": "Year"},
-      {
-        "aggregate": "sum",
-        "field": "Population_Million",
-        "title": "Population (Million)",
-        "format": ".1f"
-      }
+      {"aggregate": "sum", "field": "Total", "title": "Population", "format": ","}
     ]
   }
 }
