@@ -1,31 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Population & Immigration Trends</title>
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: #f9f9f9;
-        text-align: center;
-        margin: 0;
-        padding: 20px;
-      }
-      #vis {
-        width: 95%;
-        margin: auto;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Population & Immigration Trends</h1>
-    <div id="vis"></div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Population & Immigration Trends</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <h1 style="text-align:center;">Population & Immigration Trends</h1>
+  <div style="display:flex; justify-content:space-around; align-items:flex-start;">
+    <div id="vis1"></div>
+    <div id="vis2"></div>
+  </div>
 
-    <script type="text/javascript">
-      vegaEmbed("#vis", "combined.json", {actions: false}).catch(console.error);
-    </script>
-  </body>
+  <script type="text/javascript">
+    vegaEmbed('#vis1', 'population.json').catch(console.error);
+    vegaEmbed('#vis2', 'immigrant.json').catch(console.error);
+  </script>
+</body>
 </html>
