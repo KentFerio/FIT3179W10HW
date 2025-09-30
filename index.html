@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Australia Population and Immigration Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 20px;
+      text-align: center;
+    }
+    #controls {
+      margin-bottom: 20px;
+    }
+    #charts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Australia Population and Immigration Dashboard</h1>
+
+  <div id="controls">
+    <label for="stateSelect"><strong>Select State: </strong></label>
+    <select id="stateSelect">
+      <option>All</option>
+      <option>New South Wales</option>
+      <option>Victoria</option>
+      <option>Queensland</option>
+      <option>South Australia</option>
+      <option>Western Australia</option>
+      <option>Tasmania</option>
+      <option>Northern Territory</option>
+      <option>Australian Capital Territory</option>
+    </select>
+  </div>
+
+  <div id="charts">
+    <div id="populationChart"></div>
+    <div id="immigrantChart"></div>
+  </div>
+
+  <script>
+    function renderCharts(selectedState) {
+      const populationSpec = "population.json";
+      const immigrantSpec = "immigrant.json";
+
+      vegaEmbed("#populationChart", populationSpec, {actions: false})
+        .then(result => {
+          result.view.signal("selected_state", selectedState).run();
+        });
+
+      vegaEmbed("#immigrantChart", immigrantSpec, {actions: false})
+        .then(result => {
+          result.view.signal("selected_state", selectedState).run();
+        });
+    }
+
+    renderCharts("All");
+
+    document.getElementById("stateSelect").addEventListener("change", function() {
+      renderCharts(this.value);
+    });
+  </script>
+</body>
+</html>
