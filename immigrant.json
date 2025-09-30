@@ -1,55 +1,35 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "title": "Immigrant Entry Over Time (Filtered by State or All)",
-  "width": 700,
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Total Immigrant Entry by State (Thousand)",
+  "width": 600,
   "height": 400,
   "data": {
-    "url": "https://raw.githubusercontent.com/KentFerio/FIT3179W10HW/refs/heads/main/FIT3179W10HW.csv"
+    "url": "https://raw.githubusercontent.com/KentFerio/FIT3179W10HW/main/FIT3179W10HW.csv"
   },
   "params": [
-    {
-      "name": "selected_state",
-      "value": "All",
-      "bind": {
-        "input": "select",
-        "options": [
-          "All",
-          "New South Wales",
-          "Victoria",
-          "Queensland",
-          "South Australia",
-          "Western Australia",
-          "Tasmania",
-          "Northern Territory",
-          "Australian Capital Territory"
-        ],
-        "name": "Select State: "
-      }
-    }
+    {"name": "selected_state", "value": "All"}
   ],
   "transform": [
-    {"filter": "selected_state == 'All' || datum.State == selected_state"},
-    {"calculate": "datum['Immigrant Entry'] / 1000", "as": "ImmigrantThousands"}
+    {
+      "filter": "selected_state == 'All' || datum.State == selected_state"
+    }
   ],
   "mark": {"type": "line", "point": true},
   "encoding": {
     "x": {"field": "Year", "type": "ordinal", "title": "Year"},
     "y": {
-      "field": "ImmigrantThousands",
+      "aggregate": "sum",
+      "field": "Immigrant Entry",
       "type": "quantitative",
-      "title": "Immigrant Entry (thousands)",
-      "axis": {"format": ".0f"}
+      "title": "Total Immigrant Entry (Thousand)",
+      "axis": {"format": "s"},
+      "scale": {"domain": [0, 2e5]}
     },
-    "color": {"field": "State", "type": "nominal", "title": "State"},
+    "color": {"field": "State", "type": "nominal"},
     "tooltip": [
       {"field": "State", "title": "State"},
       {"field": "Year", "title": "Year"},
-      {
-        "field": "ImmigrantThousands",
-        "title": "Immigrant Entry (thousands)",
-        "format": ".0f"
-      }
+      {"aggregate": "sum", "field": "Immigrant Entry", "title": "Immigrant Entry", "format": ","}
     ]
-  },
-  "config": {}
+  }
 }
