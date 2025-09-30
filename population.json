@@ -1,5 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Total Population by State (Million)",
   "width": 600,
   "height": 400,
@@ -50,7 +50,12 @@
     "tooltip": [
       {"field": "State", "title": "State"},
       {"field": "Year", "title": "Year"},
-      {"aggregate": "sum", "field": "Population_Million", "title": "Population (Million)", "format": ".1f"}
+      {
+        "aggregate": "sum",
+        "field": "Population_Million",
+        "title": "Population (Million)",
+        "format": ".1f"
+      }
     ]
   }
 }
