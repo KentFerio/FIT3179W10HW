@@ -1,55 +1,35 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "title": "Total Population by Year (Filtered by State or All)",
-  "width": 700,
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Total Population by State (Million)",
+  "width": 600,
   "height": 400,
   "data": {
-    "url": "https://raw.githubusercontent.com/KentFerio/FIT3179W10HW/refs/heads/main/FIT3179W10HW.csv"
+    "url": "https://raw.githubusercontent.com/KentFerio/FIT3179W10HW/main/FIT3179W10HW.csv"
   },
   "params": [
-    {
-      "name": "selected_state",
-      "value": "All",
-      "bind": {
-        "input": "select",
-        "options": [
-          "All",
-          "New South Wales",
-          "Victoria",
-          "Queensland",
-          "South Australia",
-          "Western Australia",
-          "Tasmania",
-          "Northern Territory",
-          "Australian Capital Territory"
-        ],
-        "name": "Select State: "
-      }
-    }
+    {"name": "selected_state", "value": "All"}
   ],
   "transform": [
-    {"filter": "selected_state == 'All' || datum.State == selected_state"},
-    {"calculate": "datum.Total / 1000000", "as": "TotalMillions"}
+    {
+      "filter": "selected_state == 'All' || datum.State == selected_state"
+    }
   ],
   "mark": "bar",
   "encoding": {
     "x": {"field": "Year", "type": "ordinal", "title": "Year"},
     "y": {
-      "field": "TotalMillions",
+      "aggregate": "sum",
+      "field": "Population",
       "type": "quantitative",
-      "title": "Total Population (millions)",
-      "axis": {"format": ".1f"}
+      "title": "Total Population (Million)",
+      "axis": {"format": "s"},
+      "scale": {"domain": [0, 2e7]}
     },
-    "color": {"field": "State", "type": "nominal", "title": "State"},
+    "color": {"field": "State", "type": "nominal"},
     "tooltip": [
       {"field": "State", "title": "State"},
       {"field": "Year", "title": "Year"},
-      {
-        "field": "TotalMillions",
-        "title": "Population (millions)",
-        "format": ".2f"
-      }
+      {"aggregate": "sum", "field": "Population", "title": "Population", "format": ","}
     ]
-  },
-  "config": {}
+  }
 }
